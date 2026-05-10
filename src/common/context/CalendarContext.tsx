@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import type { ImdbTitle } from "../../apis/imdb/imdbApi";
 import { supabase } from "../../apis/supabase/supabase";
 import { useAuth } from "../hooks/useAuth";

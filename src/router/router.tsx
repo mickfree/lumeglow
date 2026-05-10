@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { Layout } from "../common/layout/Layout";
 import { Home } from "../app/home/home";
