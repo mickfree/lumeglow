@@ -1,0 +1,247 @@
+/* houdini */
+@property --blink-opacity {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@keyframes blink-animation {
+
+  0%,
+  100% {
+    opacity: var(--blink-opacity, 1);
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* base */
+:root {
+  --stripe-color: #000;
+  /* Cambiado a negro */
+  --bg: #050505;
+  /* Fondo oscuro profundo */
+  --rainbow-opacity: 0.6;
+}
+
+/* custom */
+@keyframes smoothBg {
+  from {
+    background-position: 50% 50%, 50% 50%;
+  }
+
+  to {
+    background-position: 350% 50%, 350% 50%;
+  }
+}
+
+.intro-wrapper {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.intro-hero {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  position: absolute;
+  display: flex;
+  place-content: center;
+  place-items: center;
+  --stripes: repeating-linear-gradient(100deg,
+      var(--stripe-color) 0%,
+      var(--stripe-color) 7%,
+      transparent 10%,
+      transparent 12%,
+      var(--stripe-color) 16%);
+
+  --rainbow: repeating-linear-gradient(100deg,
+      #1e40af 10%,
+      /* Azules más oscuros */
+      #701a75 15%,
+      /* Púrpura oscuro */
+      #1e40af 20%,
+      #134e4a 25%,
+      /* Verde azulado oscuro */
+      #1e40af 30%);
+  background-image: var(--stripes), var(--rainbow);
+  background-size: 300%, 200%;
+  background-position: 50% 50%, 50% 50%;
+
+  filter: blur(10px);
+  /* Eliminado invert(100%) para mantener oscuridad */
+  mask-image: radial-gradient(ellipse at 100% 0%, black 40%, transparent 70%);
+  transition: all 1s ease-in-out;
+}
+
+.intro-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--stripes), var(--rainbow);
+  background-size: 200%, 100%;
+  animation: smoothBg 60s linear infinite;
+  background-attachment: fixed;
+  mix-blend-mode: screen;
+  /* Cambiado de difference a screen para resaltar sobre negro */
+  opacity: var(--rainbow-opacity);
+  transition: all 1s ease-in-out;
+}
+
+.intro-wrapper:has(:checked) .intro-hero,
+.intro-wrapper:has(:checked) .intro-hero::after {
+  filter: blur(20px) opacity(0%) saturate(200%);
+  transform: scale(1.1);
+}
+
+.intro-content {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  place-content: center;
+  place-items: center;
+  flex-flow: column;
+  gap: 2%;
+  padding: 2rem;
+  text-align: center;
+  color: #fff;
+  transition: opacity 0.5s ease-out;
+}
+
+@media (min-width: 768px) {
+  .intro-content {
+    gap: 4.5%;
+  }
+}
+
+.intro-description {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.intro-description p {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (min-width: 768px) {
+  .intro-description p {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+.intro-wrapper:has(:checked) .intro-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.h1--scalingSize {
+  font-size: calc(1rem - -5vw);
+  position: relative;
+  font-family: Inter, sans-serif;
+  font-weight: bold;
+}
+
+#intro-switch {
+  appearance: none;
+  -webkit-appearance: none;
+  opacity: 0;
+  position: absolute;
+}
+
+[for="intro-switch"] {
+  cursor: pointer;
+}
+
+@keyframes animSwitch {
+  50% {
+    transform: scale(1.2);
+    font-weight: 900;
+  }
+}
+
+.intro-icon {
+  width: 1lh;
+  height: 1lh;
+  aspect-ratio: 1/1;
+  padding: 0.25em 0.35rem;
+  border-radius: 100px;
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  --blink-opacity: 1;
+  animation: blink-animation 2s ease-in-out infinite running;
+}
+
+.h1--scalingSize::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  background: white;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-mask: linear-gradient(#000 0 0) luminance;
+  mask: linear-gradient(#000 0 0) luminance;
+  backdrop-filter: blur(5px) brightness(0.5);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+  display: flex;
+  margin: auto;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* animacion de transicion a login */
+.intro-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.exit-active {
+  transform: translateY(-100%);
+}
+
+.text-glow {
+  color: white;
+  text-shadow:
+    0 0 5px #00ff88,
+    0 0 10px #00ff88,
+    0 0 20px #00ff88,
+    0 0 40px #00cc66;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: fade-in 0.8s ease-out forwards, flicker 5s infinite 0.8s;
+}
+
+.text-static {
+  color: white;
+  text-shadow:
+    0 0 5px #00ff88,
+    0 0 10px #00ff88,
+    0 0 20px #00ff88,
+    0 0 40px #00cc66;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: fade-in 0.8s ease-out forwards, flicker 0s infinite 0.8s;
+}            
+
+@keyframes flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 40px #00cc66;
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+}
