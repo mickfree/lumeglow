@@ -1,89 +1,8 @@
-export interface ImdbImage {
-  url: string;
-  width: number;
-  height: number;
-}
-
-export interface ImdbRating {
-  aggregateRating: number;
-  voteCount: number;
-}
-
-export interface ImdbPerson {
-  id: string;
-  displayName: string;
-  primaryImage?: ImdbImage;
-  primaryProfessions?: string[];
-  alternativeNames?: string[];
-}
-
-export interface ImdbMetacritic {
-  score: number;
-  reviewCount: number;
-}
-
-export interface ImdbCountry {
-  code: string;
-  name: string;
-}
-
-export interface ImdbLanguage {
-  code: string;
-  name: string;
-}
-
-export interface ImdbInterest {
-  id: string;
-  name: string;
-  isSubgenre?: boolean;
-}
-
-export interface ImdbReleaseDateInfo {
-  country: ImdbCountry;
-  releaseDate: {
-    year: number;
-    month: number;
-    day: number;
-  };
-  attributes?: string[];
-}
-
-export interface ImdbReleaseDatesResponse {
-  releaseDates: ImdbReleaseDateInfo[];
-  nextPageToken: string;
-}
-
-export interface ImdbTitle {
-  id: string;
-  type: string;
-  primaryTitle: string;
-  originalTitle: string;
-  primaryImage?: ImdbImage;
-  startYear?: number;
-  endYear?: number;
-  runtimeSeconds?: number;
-  genres?: string[];
-  rating?: ImdbRating;
-  plot?: string;
-  releaseDate?: string;
-  metacritic?: ImdbMetacritic;
-  directors?: ImdbPerson[];
-  writers?: ImdbPerson[];
-  stars?: ImdbPerson[];
-  originCountries?: ImdbCountry[];
-  spokenLanguages?: ImdbLanguage[];
-  interests?: ImdbInterest[];
-  releaseDates?: ImdbReleaseDateInfo[];
-}
-
-export interface ImdbResponse {
-  titles: ImdbTitle[];
-  totalCount: number;
-  nextPageToken: string;
-}
+import type { ImdbTitle, ImdbResponse, ImdbReleaseDateInfo, ImdbReleaseDatesResponse } from '../types/imdbTypes';
 
 const BASE_URL = 'https://api.imdbapi.dev';
 
+// Obtiene todos los títulos
 export async function getTitles(): Promise<ImdbTitle[]> {
   try {
     const response = await fetch(`${BASE_URL}/titles`);
@@ -98,6 +17,7 @@ export async function getTitles(): Promise<ImdbTitle[]> {
   }
 }
 
+// Obtiene un título por ID
 export async function getTitleById(id: string): Promise<ImdbTitle | null> {
   try {
     const response = await fetch(`${BASE_URL}/titles/${id}`);
@@ -112,6 +32,7 @@ export async function getTitleById(id: string): Promise<ImdbTitle | null> {
   }
 }
 
+// Obtiene las fechas de lanzamiento de un título
 export async function getReleaseDates(id: string): Promise<ImdbReleaseDateInfo[]> {
   try {
     const response = await fetch(`${BASE_URL}/titles/${id}/releaseDates`);
@@ -126,6 +47,7 @@ export async function getReleaseDates(id: string): Promise<ImdbReleaseDateInfo[]
   }
 }
 
+// Busca títulos por consulta
 export async function searchTitles(query: string, limit: number = 5): Promise<ImdbTitle[]> {
   try {
     const response = await fetch(`${BASE_URL}/search/titles?query=${encodeURIComponent(query)}&limit=${limit}`);
@@ -140,6 +62,7 @@ export async function searchTitles(query: string, limit: number = 5): Promise<Im
   }
 }
 
+// Obtiene títulos por país
 export async function getTitlesByCountry(countryName: string, limit: number = 20): Promise<ImdbTitle[]> {
   try {
     // Usamos el buscador porque el parámetro originCountry de esta API parece no estar filtrando correctamente

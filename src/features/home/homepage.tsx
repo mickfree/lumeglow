@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { getTitles, type ImdbTitle } from "../../apis/imdb/imdbApi";
+import { getTitles, type ImdbTitle } from "../../apis/imdb/services/imdbService";
 import CalendarIcon from "../../components/ui/icons/CalendarIcon";
 
 export function HomePage() {
@@ -27,8 +27,8 @@ export function HomePage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {movies.map((movie) => (
-            <Link 
-              key={movie.id} 
+            <Link
+              key={movie.id}
               to={`/movie/${movie.id}`}
               className="bg-zinc-900 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105 flex flex-col cursor-pointer border border-zinc-800"
             >

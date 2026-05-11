@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { getTitleById, getReleaseDates, type ImdbTitle, type ImdbReleaseDateInfo } from "../../../apis/imdb/imdbApi";
+import { getTitleById, getReleaseDates, type ImdbTitle, type ImdbReleaseDateInfo } from "../../../apis/imdb/services/imdbService";
 import { useCalendar } from "../../../common/hooks/useCalendar";
 import { useAuth } from "../../../common/hooks/useAuth";
 import CalendarIcon from "../../../components/ui/icons/CalendarIcon";
@@ -34,7 +34,7 @@ export function MovieDetails() {
 
   const handleCalendarToggle = async () => {
     if (!movie) return;
-    
+
     // Redirect to login if not authenticated
     if (!user) {
       navigate("/login");
@@ -97,7 +97,7 @@ export function MovieDetails() {
               Ver calendario
             </button>
           )}
-          
+
           <button
             onClick={handleCalendarToggle}
             className={`flex-1 md:flex-none flex items-center justify-center px-6 py-1.5 rounded-md font-bold transition-all text-xs md:text-sm ${inCalendar

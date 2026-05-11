@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, type ReactNode } from "react";
-import type { ImdbTitle } from "../../apis/imdb/imdbApi";
+import type { ImdbTitle } from "../../apis/imdb/services/imdbService";
 import { supabase } from "../../apis/supabase/supabase";
 import { useAuth } from "../hooks/useAuth";
 

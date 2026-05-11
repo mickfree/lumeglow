@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { getTitlesByCountry, type ImdbTitle } from '../../../apis/imdb/imdbApi';
+import { getTitlesByCountry, type ImdbTitle } from '../../../apis/imdb/services/imdbService';
 
 // Fix for default marker icons in Leaflet with Vite/Webpack
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
