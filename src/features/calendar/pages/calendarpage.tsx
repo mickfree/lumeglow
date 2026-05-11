@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router";
 
-import { useCalendar } from "../../common/hooks/useCalendar";
-import CalendarIcon from "../../components/ui/icons/CalendarIcon";
-import { MONTHS, DAYS_OF_WEEK } from "./constants/dates";
+import { useCalendar } from "../../../common/hooks/useCalendar";
+import CalendarIcon from "../../../components/ui/icons/CalendarIcon";
+import { MONTHS, DAYS_OF_WEEK } from "../constants/dates";
 
-import ChevronLeftIcon from "../../components/ui/icons/ChevronLeftIcon";
-import ChevronRightIcon from "../../components/ui/icons/ChervronRightIcon";
+import ChevronLeftIcon from "../../../components/ui/icons/ChevronLeftIcon";
+import ChevronRightIcon from "../../../components/ui/icons/ChervronRightIcon";
 
 export function CalendarPage() {
   const { calendarMovies } = useCalendar();

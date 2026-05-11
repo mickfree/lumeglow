@@ -17,6 +17,7 @@ export function Login() {
     setLoading(true);
     setError(null);
 
+    // logear al usuario
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,

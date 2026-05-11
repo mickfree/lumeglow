@@ -20,7 +20,8 @@ export function SignUp() {
     setLoading(true);
     setError(null);
     setMessage(null);
-
+    
+    // validar la contraseña
     if (password !== confirmPassword) {
       setError("Las contraseñas no coinciden");
       setLoading(false);
@@ -36,10 +37,10 @@ export function SignUp() {
       setError(error.message);
     } else {
       if (data.session) {
-        // Automatically logged in
+        // Si hay una sesión, redirige al usuario a la página principal
         navigate("/");
       } else {
-        // Confirmation email sent
+        // Si no hay una sesión, muestra un mensaje de confirmación
         setMessage("¡Registro exitoso! Revisa tu correo electrónico para confirmar tu cuenta.");
       }
     }

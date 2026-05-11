@@ -7,16 +7,18 @@ import { CalendarProvider } from "./common/context/CalendarContext";
 
 export default function App() {
   const [showApp, setShowApp] = useState(() => {
-    // Check localStorage to see if user has already seen the intro
+    // verificar si el usuario ha visto la intro
     return localStorage.getItem("lumeglow_intro_seen") === "true";
   });
 
+  // función que se ejecuta cuando el usuario presiona el botón de empezar
   const handleStart = () => {
     localStorage.setItem("lumeglow_intro_seen", "true");
     setShowApp(true);
   };
 
   if (!showApp) {
+    // Si el usuario no ha visto la intro, muestra la intro
     return <Intro onStart={handleStart} />;
   }
 

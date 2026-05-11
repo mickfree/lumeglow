@@ -1,5 +1,6 @@
 import type { ImdbTitle, ImdbResponse, ImdbReleaseDateInfo, ImdbReleaseDatesResponse } from '../types/imdbTypes';
 
+// TODO: Usar variables de entorno, le puse pero dejo de funcionar
 const BASE_URL = 'https://api.imdbapi.dev';
 
 // Obtiene todos los títulos
