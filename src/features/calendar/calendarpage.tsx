@@ -1,14 +1,12 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router";
+
 import { useCalendar } from "../../common/hooks/useCalendar";
 import CalendarIcon from "../../components/ui/icons/CalendarIcon";
+import { MONTHS, DAYS_OF_WEEK } from "./constants/dates";
 
-
-const DAYS_OF_WEEK = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
-const MONTHS = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-];
+import ChevronLeftIcon from "../../components/ui/icons/ChevronLeftIcon";
+import ChevronRightIcon from "../../components/ui/icons/ChervronRightIcon";
 
 export function CalendarPage() {
   const { calendarMovies } = useCalendar();
@@ -17,14 +15,16 @@ export function CalendarPage() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
+  // obtenemos fechas actuales
   const daysInMonth = useMemo(() => new Date(year, month + 1, 0).getDate(), [year, month]);
   const firstDayOfMonth = useMemo(() => new Date(year, month, 1).getDay(), [year, month]);
 
+  // navegamos entre meses
   const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
   const goToToday = () => setCurrentDate(new Date());
 
-  // Get movies for the current month/year
+  // obtenemos las películas del mes actual
   const moviesInView = useMemo(() => {
     return calendarMovies.filter(movie => {
       const d = new Date(movie.calendarDate);
@@ -32,14 +32,13 @@ export function CalendarPage() {
     });
   }, [calendarMovies, year, month]);
 
-  // Create grid days
+  // creamos los días del mes
   const calendarDays = useMemo(() => {
     const days = [];
-    // Padding for first day
     for (let i = 0; i < firstDayOfMonth; i++) {
       days.push(null);
     }
-    // Days of the month
+    // días del mes
     for (let d = 1; d <= daysInMonth; d++) {
       days.push(d);
     }
@@ -60,7 +59,7 @@ export function CalendarPage() {
             className="p-2 hover:bg-zinc-800 rounded-lg transition-colors shrink-0"
             title="Mes Anterior"
           >
-            <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            <ChevronLeftIcon className="w-4 h-4 md:w-5 md:h-5" />
           </button>
           <div className="px-2 md:px-4 font-bold text-sm md:text-lg min-w-[120px] md:min-w-[150px] text-center shrink-0">
             {MONTHS[month]} {year}
@@ -70,7 +69,7 @@ export function CalendarPage() {
             className="p-2 hover:bg-zinc-800 rounded-lg transition-colors shrink-0"
             title="Mes Siguiente"
           >
-            <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            <ChevronRightIcon className="w-4 h-4 md:w-5 md:h-5" />
           </button>
           <div className="w-px h-6 bg-zinc-800 mx-1 shrink-0"></div>
           <button
@@ -83,7 +82,7 @@ export function CalendarPage() {
       </header>
 
       <div className="flex-1 bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col">
-        {/* Days Header */}
+        {/* días de la semana */}
         <div className="grid grid-cols-7 border-b border-zinc-800 bg-zinc-900/50">
           {DAYS_OF_WEEK.map(day => (
             <div key={day} className="py-3 text-center text-xs font-black uppercase tracking-widest text-zinc-500">
@@ -92,7 +91,7 @@ export function CalendarPage() {
           ))}
         </div>
 
-        {/* Grid */}
+        {/* Grid de días */}
         <div className="flex-1 grid grid-cols-7 auto-rows-fr overflow-y-auto">
           {calendarDays.map((day, index) => {
             const moviesForDay = day ? moviesInView.filter(m => {
