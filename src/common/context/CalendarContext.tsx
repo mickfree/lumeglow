@@ -1,12 +1,14 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useState, useEffect, type ReactNode } from "react";
 import type { ImdbTitle } from "../../apis/imdb/imdbApi";
 import { supabase } from "../../apis/supabase/supabase";
 import { useAuth } from "../hooks/useAuth";
 
+//Interfaz para manejar el calendario de peliculas
 interface CalendarMovie extends ImdbTitle {
-  calendarDate: string; // ISO date string
+  calendarDate: string;
 }
 
+//Interfaz para manejar el contexto del calendario
 interface CalendarContextType {
   calendarMovies: CalendarMovie[];
   addToCalendar: (movie: ImdbTitle, date: string) => Promise<void>;
@@ -15,14 +17,14 @@ interface CalendarContextType {
   loading: boolean;
 }
 
-const CalendarContext = createContext<CalendarContextType | undefined>(undefined);
+export const CalendarContext = createContext<CalendarContextType | undefined>(undefined);
 
 export function CalendarProvider({ children }: { children: ReactNode }) {
   const [calendarMovies, setCalendarMovies] = useState<CalendarMovie[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  const { user } = useAuth(); // Obtenemos el usuario actual
 
-  // Load from Supabase on mount or when user changes
+  // Carga desde Supabase al montar o cuando cambia el usuario
   useEffect(() => {
     const fetchCalendar = async () => {
       if (!user) {
@@ -45,7 +47,7 @@ export function CalendarProvider({ children }: { children: ReactNode }) {
           primaryTitle: item.title,
           calendarDate: item.calendar_date,
           primaryImage: item.poster_url ? { url: item.poster_url, width: 0, height: 0 } : undefined,
-          // Placeholder values for other required ImdbTitle fields if any
+          // Valores de marcador de posición para otros campos ImdbTitle requeridos
           type: "movie",
           originalTitle: item.title,
         }));
@@ -60,10 +62,10 @@ export function CalendarProvider({ children }: { children: ReactNode }) {
   const addToCalendar = async (movie: ImdbTitle, date: string) => {
     if (!user) return;
 
-    // Standardize to YYYY-MM-DD to avoid timezone shifts
+    // Estandarizamos a YYYY-MM-DD para evitar desplazamientos de zona horaria
     const cleanDate = date.includes("T") ? date.split("T")[0] : date;
 
-    if (!isMovieInCalendar(movie.id)) {
+    if (!isMovieInCalendar(movie.id)) { // Verificamos si la película ya está en el calendario
       const { error } = await supabase.from("user_calendar").insert({
         user_id: user.id,
         movie_id: movie.id,
@@ -111,10 +113,4 @@ export function CalendarProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useCalendar() {
-  const context = useContext(CalendarContext);
-  if (context === undefined) {
-    throw new Error("useCalendar must be used within a CalendarProvider");
-  }
-  return context;
-}
+

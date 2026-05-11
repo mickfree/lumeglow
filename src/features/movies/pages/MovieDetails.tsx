@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { getTitleById, getReleaseDates, type ImdbTitle, type ImdbReleaseDateInfo } from "../../../apis/imdb/imdbApi";
-import { useCalendar } from "../../../common/context/CalendarContext";
+import { useCalendar } from "../../../common/hooks/useCalendar";
 import { useAuth } from "../../../common/hooks/useAuth";
 import CalendarIcon from "../../../components/ui/icons/CalendarIcon";
 import ImdbStarIcon from "../../../components/ui/icons/ImdbStarIcon";

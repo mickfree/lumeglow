@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router";
-import { useCalendar } from "../../common/context/CalendarContext";
+import { useCalendar } from "../../common/hooks/useCalendar";
 import CalendarIcon from "../../components/ui/icons/CalendarIcon";
 
 
