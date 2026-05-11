@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { getTitles, type ImdbTitle } from "../../apis/imdb/services/imdbService";
+import { getTitles } from "../../apis/imdb/services/imdbService";
+import type { ImdbTitle } from "../../apis/imdb/types/imdbTypes";
 import CalendarIcon from "../../components/ui/icons/CalendarIcon";
 
 export function HomePage() {
